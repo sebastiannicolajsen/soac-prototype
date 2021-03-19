@@ -1,0 +1,34 @@
+os: linux
+dist: bionic
+language: skip
+services: skip
+addons:
+    apt:
+        packages:
+            - sshpass
+before_install:
+- openssl aes-256-cbc -K $encrypted_3feba35f3fd3_key -iv $encrypted_3feba35f3fd3_iv
+  -in do_ssh_key.enc -out /tmp/git_deploy_key -d
+- chmod 600 /tmp/git_deploy_key
+- echo 'echo ${SSH_PASSPHRASE}' > /tmp/askpass && chmod +x /tmp/askpass
+- eval "$(ssh-agent -s)"
+- DISPLAY=":0.0" SSH_ASKPASS="/tmp/askpass" setsid ssh-add /tmp/git_deploy_key </dev/null
+install:
+- docker --version
+stages:
+- deploy_worker
+jobs:
+  include:
+  - stage: deploy_worker
+    name: construct and deploy worker
+    script:
+    - "cd worker"
+    -
+  - stage: deploy
+    name: deploy new version
+    install: skip
+    script: |
+      ssh -o "StrictHostKeyChecking no" ${MT_USER}@${MT_SERVER} \
+      "cd DevOps-GroupF/remote_files && \
+      docker-compose pull && \
+      docker-compose up"
