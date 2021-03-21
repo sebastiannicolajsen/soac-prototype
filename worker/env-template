@@ -1,0 +1,8 @@
+PROVIDER_TOKEN=6102ba77d16c0e03b08fc5c4c6048ff83b9ee11c8f5a7394acd4e11fe553933a
+SSH_KEY_PATH=~/.ssh/digitalocean_rsa
+SSH_PUB_KEY_PATH=~/.ssh/digitalocean_rsa.pub
+PROVIDER_KEY_NAME=vagrant
+ABS_KEY_PATH=vagrant/key
+ABS_PUB_KEY_PATH=vagrant/key.pub
+REL_KEY_PATH=#local location of key
+REMOTE_KEY_PATH=#location of key on worker, relative to vagrant folder

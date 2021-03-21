@@ -1,0 +1,24 @@
+Vagrant.configure("2") do |config|
+    config.env.enable #enable .env use
+    config.vm.box = ENV["VM_BOX"]
+    config.vm.box_url = ENV["VM_BOX_URL"]
+    config.vm.provision :docker
+    config.ssh.private_key_path = "./key"
+    config.vm.define ENV["DROPLET_NAME"] do |droplet|
+      droplet.vm.provider :digital_ocean do |provider, override|
+               provider.ssh_key_name = ENV["PROVIDER_KEY_NAME"]
+               provider.token = ENV["PROVIDER_TOKEN"]
+               provider.image = ENV["PROVIDER_IMAGE"]
+               provider.region = ENV["PROVIDER_REGION"]
+               provider.size = ENV["PROVIDER_SIZE"]
+         override.nfs.functional = ENV["PROVIDER_NFS_FUNCTIONAL"]
+        end
+    droplet.vm.hostname= ENV["DROPLET_NAME"]
+    droplet.vm.provision "shell", inline: <<-SHELL
+    echo -e "\nOpening port for service on #{ENV["DROPLET_PORT"]} ...\n"
+    ufw allow "#{ENV["DROPLET_PORT"]}/tcp"
+    echo ". $HOME/.bashrc" >> $HOME/.bash_profile
+    echo -e "\nComplete\n"
+    SHELL
+    end
+end
