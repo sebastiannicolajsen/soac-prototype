@@ -5,6 +5,10 @@ KEY_NAME=$2
 KEY=$3
 SERVICES=$4
 
+echo -e "${NAME} ${KEY_NAME} ${KEY}\n"
+echo -e "${SERVICES}\n"
+echo -e "${5}"
+
 echo -e "load provider scheme\n\n"
 SCHEME=./deploy-schemes/$5
 source $SCHEME
@@ -20,6 +24,6 @@ IP=$(./fetch-ip.sh root $WORKER $NAME)
 
 echo -e "Install proxy service"
 # Install services:
-./install.sh $KEY sebni/soarc-service-proxy $PORT "services='${SERVICES}'\nPORT=${PORT}" root $IP
+./install.sh $KEY sebni/soarc-service-proxy $PORT "PORT=${PORT}\nservices=\"${SERVICES}\"" root $IP
 
 echo -e "proxy available on ${IP}:${PORT}"
