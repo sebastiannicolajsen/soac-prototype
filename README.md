@@ -33,4 +33,4 @@ The above scripts are used in the two primary scripts of the system. These are l
 ## The worker
 The worker acts as the central unit which is utilised for initiating new VMs. This is done since most CI services do not allow direct integration with vagrant. This worker is therefore the central hub where vagrant files for the different VMs are constructed. The help commands all access this unit to then access the individual VMs. (except `install`). The worker, for now, therefore also contain all keys needed to access these. This setup, if time permitted it `install` could also be extended to go through the `worker`.
 
-![architecture](/Users/sebastiannicolajsen/Documents/Repositories/soac-prototype/architecture.png)
+![architecture](/soac-prototype/architecture.png)
