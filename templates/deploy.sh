@@ -3,26 +3,24 @@
 echo "create .env"
 touch .env-tmp
 echo "DROPLET_NAME=${3}" >> .env-tmp
-echo "PROVIDER_IMAGE=${4}" >> .env-tmp
-echo "PROVIDER_REGION=${5}" >> .env-tmp
-echo "PROVIDER_SIZE=${6}" >> .env-tmp
-echo "PROVIDER_NFS_FUNCTIONAL=${7}" >> .env-tmp
-echo "DROPLET_PORT=${8}" >> .env-tmp
-echo "VM_BOX=${9}" >> .env-tmp
-echo "VM_BOX_URL=${10}" >> .env-tmp
-echo "PROVIDER_KEY_NAME=${11}" >> .env-tmp
-# We also copy a key to the path, provided in arg 12, expect its name
-# save secrets:
-echo "PROVIDER_TOKEN=$PROVIDER_TOKEN" >> .env-tmp
+echo "DROPLET_PORT=${4}" >> .env-tmp
+echo "PROVIDER_KEY_NAME=${5}" >> .env-tmp
+#add all parts of scheme selected:
+while read line
+do
+  eval echo $line >> .env-tmp
+done < $7
+
 host=$1@$2
 echo "transfer files"
-cat "${12}" > ./key
-cat "${12}.pub" > ./key.pub
+cat "${6}" > ./key
+cat "${6}.pub" > ./key.pub
+cp "vagrantfiles/${8}" ./Vagrantfile
 # Transfer everything needed; The created env, and the vagrant file.
-scp -o "StrictHostKeyChecking no" -i $SSH_KEY_PATH key key.pub .env-tmp Vagrantfile $11 "$host:/vagrant/build/"
+scp -o "StrictHostKeyChecking no" -i $SSH_KEY_PATH key key.pub .env-tmp Vagrantfile "$host:/vagrant/build/"
 # Delete environment:
 echo "remove local tmp files"
-rm .env-tmp key key.pub
+rm .env-tmp key key.pub Vagrantfile
 # connect
 echo "connect to worker"
 ssh -o "StrictHostKeyChecking no" -i $SSH_KEY_PATH $host << "EOF"
@@ -31,6 +29,7 @@ ssh -o "StrictHostKeyChecking no" -i $SSH_KEY_PATH $host << "EOF"
   source ./.env-tmp
   path="builder-${DROPLET_NAME}"
   if [ -d "$path" ]; then
+    rm .env-tmp Vagrantfile key key.pub
     echo "SERVICE already exists"
   else
     mkdir -p "${path}"
