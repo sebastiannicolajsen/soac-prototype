@@ -6,3 +6,5 @@ ABS_KEY_PATH=vagrant/key
 ABS_PUB_KEY_PATH=vagrant/key.pub
 REL_KEY_PATH=#local location of key
 REMOTE_KEY_PATH=#location of key on worker, relative to vagrant folder
+DIGITAL_OCEAN_TOKEN=#used by digital ocean provider scheme
+AWS_TOKEN=#used by was provider scheme
