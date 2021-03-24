@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"infastructure","Source":"./providers","Dir":"providers"},{"Key":"","Source":"","Dir":"."},{"Key":"infrastructure","Source":"./setup/aws","Dir":"setup/aws"},{"Key":"infrastructure.aws-foundation","Source":"../aws-foundation.tf","Dir":""}]}
