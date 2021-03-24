@@ -11,6 +11,7 @@ do
   eval echo $line >> .env-tmp
 done < $7
 
+# this might not be needed for AWS, if you already have the keypair ssh key on the worker
 host=$1@$2
 echo "transfer files"
 cat "${6}" > ./key

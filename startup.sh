@@ -1,12 +1,14 @@
-export WORKER=67.205.128.26 # used by configure
+export WORKER=
+#export WORKER=67.205.128.26 # used by configure
 export CONFIG=ips.conf # used by configure
 
-# rm $CONFIG # clean list of configures
-# touch $CONFIG
-# # Configure [prefix] [port] [ssh1 name] [ssh1 path] [ssh2 name] [ssh2 path] [Deploy scheme]
-# ./configure.sh "Hospital4-" 9090 vagrant3 ~/.ssh/vagrant3 vagrant2 ~/.ssh/vagrant2 digitalocean.conf
-# ./configure.sh "Hospital3-" 9090 vagrant4 ~/.ssh/vagrant4 vagrant5 ~/.ssh/vagrant5 digitalocean.conf
-#
+rm $CONFIG # clean list of configures
+touch $CONFIG
+# Configure [prefix] [port] [ssh1 name] [ssh1 path] [ssh2 name] [ssh2 path] [Deploy scheme]
+./configure.sh "Hospital4-" 9090 vagrant3 ~/.ssh/vagrant3 vagrant2 ~/.ssh/vagrant2 digitalocean.conf
+#./configure.sh "Hospital3-" 9090 vagrant4 ~/.ssh/vagrant4 vagrant5 ~/.ssh/vagrant5 digitalocean.conf
+
+#./configure.sh "J-Hospital-" 9090 vagrant4 ~/.ssh/vagrant4 vagrant5 ~/.ssh/vagrant5 digitalocean.conf
 
 
 
