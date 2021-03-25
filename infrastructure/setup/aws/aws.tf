@@ -44,7 +44,7 @@ resource "aws_instance" "db" {
 
     connection {
       type = var.connection.type
-      host = "${aws_instance.db.public_ip}"
+      host = aws_instance.db.public_ip
       private_key = file(var.AWS_KEY_LOCATION)
       user = var.connection.user
     }
@@ -56,7 +56,7 @@ resource "aws_instance" "db" {
 
     connection {
       type = var.connection.type
-      host = "${aws_instance.db.public_ip}"
+      host = aws_instance.db.public_ip
       private_key = file(var.AWS_KEY_LOCATION)
       user = var.connection.user
     }
@@ -82,7 +82,7 @@ resource "aws_instance" "api" {
 
     connection {
       type = var.connection.type
-      host = "${aws_instance.api.public_ip}"
+      host = aws_instance.api.public_ip
       private_key = file(var.AWS_KEY_LOCATION)
       user = var.connection.user
     }
@@ -94,7 +94,7 @@ resource "aws_instance" "api" {
 
     connection {
       type = var.connection.type
-      host = "${aws_instance.api.public_ip}"
+      host = aws_instance.api.public_ip
       private_key = file(var.AWS_KEY_LOCATION)
       user = var.connection.user
     }

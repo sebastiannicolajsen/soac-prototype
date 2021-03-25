@@ -27,7 +27,7 @@ variable connection {
 }
 
 # db setup:
-resource "aws_instance" "db" {
+resource "aws_instance" "proxy" {
   ami                    = var.ami
   instance_type          = "t2.micro"
   key_name               = var.key_name
@@ -45,7 +45,7 @@ resource "aws_instance" "db" {
 
     connection {
       type = var.connection.type
-      host = "${aws_instance.db.public_ip}"
+      host = aws_instance.proxy.public_ip
       private_key = file(var.AWS_KEY_LOCATION)
       user = var.connection.user
     }
@@ -53,7 +53,7 @@ resource "aws_instance" "db" {
 
   # execute setup:
   provisioner "remote-exec" {
-    inline = concat( ["export services=${jsonencode(var.services)}"],
+    inline = concat( ["export services='${jsonencode(var.services)}'"],
                      var.setup,
                      var.config.remote_setup,
                      var.config.remote_exec_proxy,
@@ -61,9 +61,13 @@ resource "aws_instance" "db" {
 
     connection {
       type = var.connection.type
-      host = "${aws_instance.db.public_ip}"
+      host = aws_instance.proxy.public_ip
       private_key = file(var.AWS_KEY_LOCATION)
       user = var.connection.user
     }
   }
+}
+
+output "proxy-endpoint" {
+  value = aws_instance.proxy.public_ip
 }
