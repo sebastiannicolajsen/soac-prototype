@@ -35,8 +35,7 @@ To use AWS provider:
 - `AWS_SECRET_ACCESS_KEY`
 - `TF_VAR_AWS_KEY_LOCATION`
 
-
-
+It may also be necessary to  change the user within the different providers of the setup folder (i.e. the default user `ec2-user` for aws might not be applicable in your case if you changed the user name)
 
 
 ### Guide to running

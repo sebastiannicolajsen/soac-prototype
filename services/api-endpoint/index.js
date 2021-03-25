@@ -3,7 +3,7 @@ const app = express();
 const axios = require('axios').default;
 
 
-const url = `${process.env.DB}/database`
+const url = `http://${process.env.DB}/database`
 
 app.get("/api-endpoint", (req, res) => {
     axios.get(url)

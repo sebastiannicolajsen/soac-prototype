@@ -10,10 +10,10 @@ lerna-debug.log*
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 #ignore state files from terraform:
-*.tfstate
-*.terraform
-*.tfstate.*
-*.terraform.*
+**/*.tfstate
+**/*.terraform
+**/*.tfstate.*
+**/*.terraform.*
 
 # Runtime data
 pids

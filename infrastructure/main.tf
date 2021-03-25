@@ -12,8 +12,7 @@ variable config {
                        "export PORT=9090"] # all needs a port variable
 
     remote_start    = ["sudo npm install",
-                      "nohup node index.js > /dev/null 2>&1 &",
-                      "disown"] # weird way of making node a bg process
+                      "pm2 start index.js"] 
 
     remote_exec_api = ["cd src/services/api-endpoint"]
 

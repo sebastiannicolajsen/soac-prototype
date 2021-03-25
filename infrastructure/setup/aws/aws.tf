@@ -91,7 +91,7 @@ resource "aws_instance" "api" {
 
   # execute setup:
   provisioner "remote-exec" {
-    inline = concat(["export DATABASE=${aws_instance.db.public_ip}:{port}"],var.setup, var.config.remote_setup, var.config.remote_exec_api, var.config.remote_start)
+    inline = concat(["export DB=${aws_instance.db.public_ip}:${var.port}"],var.setup, var.config.remote_setup, var.config.remote_exec_api, var.config.remote_start)
 
     connection {
       type = var.connection.type
