@@ -14,7 +14,7 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 **/*.terraform
 **/*.tfstate.*
 **/*.terraform.*
-**/.terraform/*
+infrastructure/.terraform/*
 
 # Runtime data
 pids
