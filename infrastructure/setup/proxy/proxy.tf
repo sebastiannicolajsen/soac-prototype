@@ -69,5 +69,5 @@ resource "aws_instance" "proxy" {
 }
 
 output "proxy-endpoint" {
-  value = aws_instance.proxy.public_ip
+  value = "${aws_instance.proxy.public_ip}:${var.port}"
 }

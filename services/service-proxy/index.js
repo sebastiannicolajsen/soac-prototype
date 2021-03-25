@@ -11,10 +11,9 @@ const request = require('request');
 
 console.log(process.env.services)
 
-const proxies = JSON.parse(process.env.services).reduce(function(map, s){
-                      Object.keys(s).forEach(function(key){
-                        map[key] = s[key].endpoint
-                      });
+const dict = JSON.parse(process.env.services);
+const proxies = Object.keys(dict).reduce(function(map, k){
+                      map[k] = dict[k].endpoint
                       return map;
                   }, {})
 

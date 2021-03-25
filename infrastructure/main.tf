@@ -23,26 +23,63 @@ variable config {
 }
 
 
-module "infrastructure" {
-  for_each = toset(["test1"])
+# resource to extend with new services
+locals {
+  test = true
+
+  proxy = { # proxy which exposes all services through same endpoint
+    name = "proxy"
+    port = 9090
+  }
+
+  aws_services = [ # all aws services
+    {
+      name = "test1"
+      port = 9090
+    }
+  ]
+
+  google_services = [ # all google services
+    {
+      name = "google1"
+      port = 9090
+    }
+  ]
+}
+
+# add infrastructure for each service set:
+
+# AWS loader
+module "aws_inf" {
+  for_each = { for serv in local.aws_services : serv.name => serv }
   source = "./setup/aws"
   name = each.key
   AWS_KEY_LOCATION = var.AWS_KEY_LOCATION
-  port = 9090
+  port = each.value.port
+  config = var.config
+}
+
+# Google loader (currently just another AWS)
+module "google_inf" {
+  for_each = { for serv in local.google_services : serv.name => serv }
+  source = "./setup/aws"
+  name = each.key
+  AWS_KEY_LOCATION = var.AWS_KEY_LOCATION
+  port = each.value.port
   config = var.config
 }
 
 module "proxy" {
     source = "./setup/proxy"
-    name = "service-proxy"
+    name = local.proxy.port
     AWS_KEY_LOCATION = var.AWS_KEY_LOCATION
-    services = module.infrastructure.*
-    port = 9090
+    services = merge(module.aws_inf,module.google_inf)
+    port = local.proxy.port
     config = var.config
 }
 
 output "endpoints" {
-  value = module.infrastructure.*
+  value = merge(module.aws_inf,module.google_inf)
 }
 
 output "proxy" {

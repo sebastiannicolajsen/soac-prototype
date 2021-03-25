@@ -102,9 +102,9 @@ resource "aws_instance" "api" {
 }
 
 output "endpoint" {
-  value = aws_instance.api.public_ip
+  value = "${aws_instance.api.public_ip}:${var.port}"
 }
 
 output "database" {
-  value = aws_instance.db.public_ip
+  value = "${aws_instance.db.public_ip}:${var.port}"
 }
