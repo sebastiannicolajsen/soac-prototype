@@ -3,6 +3,10 @@ variable AWS_KEY_LOCATION {
   type = string
 }
 
+variable GOOGLE_KEY_LOCATION {
+  type = string
+}
+
 variable config {
   default = {
     source            = "./ansible/setup.yml"
@@ -12,7 +16,7 @@ variable config {
                          "export PORT=9090"] # all needs a port variable
 
     remote_start      = ["sudo npm install",
-                        "pm2 start index.js"]
+                         "pm2 start index.js"]
 
     remote_exec_api   = ["cd src/services/api-endpoint"]
 
@@ -34,7 +38,11 @@ locals {
 
   aws_services = [ # all aws services
     {
-      name = "test1"
+      name = "aws1"
+      port = 9090
+    },
+    {
+      name = "aws2"
       port = 9090
     }
   ]
@@ -59,12 +67,12 @@ module "aws_inf" {
   config = var.config
 }
 
-# Google loader (currently just another AWS)
+# Google loader
 module "google_inf" {
   for_each = { for serv in local.google_services : serv.name => serv }
-  source = "./setup/aws"
+  source = "./setup/google"
   name = each.key
-  AWS_KEY_LOCATION = var.AWS_KEY_LOCATION
+  GOOGLE_KEY_LOCATION = var.GOOGLE_KEY_LOCATION
   port = each.value.port
   config = var.config
 }

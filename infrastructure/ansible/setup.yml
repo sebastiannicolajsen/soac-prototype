@@ -6,27 +6,18 @@
     NODEJS_VERSION: "8"
     ansible_distribution_major_version: "7" #trusty
   tasks:
-    - name: install git
-      yum:
-        name: git
-        state: present
-        update_cache: yes
     - name: Install EPEL repo.
-      yum:
+      yum: # should probably check the key of the project, but im lazy...
         name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm
         state: present
-    - name: Import EPEL GPG key.
-      rpm_key:
-        key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
-        state: present
-    - name: install nvm
+    - name: Install npm, nodejs and git.
       yum:
-        name: npm
+        name:
+          - git
+          - npm
+          - nodejs
         state: present
-    - name: Install nodejs
-      yum:
-        name: nodejs
-        state: present
+
     - name: Install pm2 the hacky way, and the "right version"
       shell:
         cmd: npm install -g pm2@^3
