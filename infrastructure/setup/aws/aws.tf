@@ -61,7 +61,6 @@ resource "aws_instance" "db" {
       user = var.connection.user
     }
   }
-
 }
 
 # api setup:
@@ -102,6 +101,10 @@ resource "aws_instance" "api" {
   }
 }
 
-output "endpoints" {
-  value = "${aws_instance.api.tags.Name}=${aws_instance.api.public_ip} --> ${aws_instance.db.public_ip}"
+output "endpoint" {
+  value = aws_instance.api.public_ip
+}
+
+output "database" {
+  value = aws_instance.db.public_ip
 }

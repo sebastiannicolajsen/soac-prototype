@@ -5,18 +5,20 @@ variable AWS_KEY_LOCATION {
 
 variable config {
   default = {
-    source          = "./ansible/setup.yml"
-    destination     = "~/setup.yml"
+    source            = "./ansible/setup.yml"
+    destination       = "~/setup.yml"
 
-    remote_setup    = ["ansible-playbook setup.yml",
-                       "export PORT=9090"] # all needs a port variable
+    remote_setup      = ["ansible-playbook setup.yml",
+                         "export PORT=9090"] # all needs a port variable
 
-    remote_start    = ["sudo npm install",
-                      "pm2 start index.js"]
+    remote_start      = ["sudo npm install",
+                        "pm2 start index.js"]
 
-    remote_exec_api = ["cd src/services/api-endpoint"]
+    remote_exec_api   = ["cd src/services/api-endpoint"]
 
-    remote_exec_db  = ["cd src/services/database-mock"]
+    remote_exec_db    = ["cd src/services/database-mock"]
+
+    remote_exec_proxy = ["cd src/services/service-proxy"]
   }
 }
 
@@ -30,6 +32,19 @@ module "infrastructure" {
   config = var.config
 }
 
+module "proxy" {
+    source = "./setup/proxy"
+    name = "service-proxy"
+    AWS_KEY_LOCATION = var.AWS_KEY_LOCATION
+    services = module.infrastructure.*
+    port = 9090
+    config = var.config
+}
+
 output "endpoints" {
   value = module.infrastructure.*
+}
+
+output "proxy" {
+  value = module.proxy.*
 }

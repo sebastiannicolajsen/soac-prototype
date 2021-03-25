@@ -10,13 +10,16 @@ const request = require('request');
  * Given the above example, only one entry would exist:
  * "Hospital4-api" -> 157.245.92.56:9090
  */
-const proxies = process.env.services.split("|")
-                                .filter(s => s.startsWith(">"))
-                                .reduce(function(map, s){
-                                  const spl = s.split("=");
-                                  map[spl[0].substring(1)] = spl[1];
-                                  return map;
-                                }, {});
+
+console.log(process.env.services)
+
+const proxies = JSON.parse(process.env.services).reduce(function(map, s){
+                      Object.keys(s).forEach(function(key){
+                        map[key] = s[key]
+                      });
+                      return map;
+                  }, {})
+
 
 app.get("*", (req, res) => {
     const e = req.query.endpoint;
